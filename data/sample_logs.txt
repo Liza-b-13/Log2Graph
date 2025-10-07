@@ -1,0 +1,5 @@
+2025-09-01 12:30:01 user=admin action=login src=192.168.1.5 method=ssh
+2025-09-01 12:31:10 user=admin action=access file=/etc/passwd
+2025-09-01 12:35:42 user=admin action=connect dst=192.168.1.6 method=ssh
+2025-09-01 12:40:00 user=bob action=login src=192.168.1.7 method=ssh
+2025-09-01 12:46:00 user=admin action=transfer dst=10.0.0.10 file=/home/admin/secret.zip
