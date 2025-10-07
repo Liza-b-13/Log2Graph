@@ -47,17 +47,21 @@ def detect_patterns_in_graph(G: nx.DiGraph, kb: List[Dict], max_path_len: int = 
         # parcours simple : pour chaque paire de noeuds, chercher chemins courts
         for source in G.nodes():
             # limiter la recherche: chemins de longueur <= max_path_len
-            for path in nx.all_simple_paths(G, source=source, target=None, cutoff=max_path_len):
-                if len(path) < 2:
+            for target in G.nodes():
+                if source == target:
                     continue
-                seq = path_action_sequence(G, path)
-                if sequence_matches(pat_seq, seq):
-                    alerts.append({
-                        "pattern_id": pattern.get("id"),
-                        "pattern_name": pattern.get("name"),
-                        "path": path,
-                        "actions_sequence": seq
-                    })
+                for path in nx.all_simple_paths(G, source=source, target=target, cutoff=max_path_len):
+        # reste du code
+                    if len(path) < 2:
+                        continue
+                    seq = path_action_sequence(G, path)
+                    if sequence_matches(pat_seq, seq):
+                        alerts.append({
+                            "pattern_id": pattern.get("id"),
+                            "pattern_name": pattern.get("name"),
+                            "path": path,
+                            "actions_sequence": seq
+                        })
     return alerts
 
 if __name__ == "__main__":
