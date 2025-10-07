@@ -20,15 +20,25 @@ graph [
     label "host:192.168.1.4"
     type "host"
   ]
+  node [
+    id 4
+    label "host:10.0.0.9"
+    type "host"
+  ]
+  node [
+    id 5
+    label "host:10.0.0.10"
+    type "host"
+  ]
   edge [
     source 0
     target 0
     events "_networkx_list_start"
     events [
-      action "login"
-      ts "2025-10-01T10:00:00"
+      action "unknown"
+      ts "2025-10-01T09:00:00"
       user "alice"
-      raw "alice logged in successfully on 10.0.0.2"
+      raw ""
     ]
   ]
   edge [
@@ -36,32 +46,70 @@ graph [
     target 1
     events "_networkx_list_start"
     events [
-      action "ssh_connect"
-      ts "2025-10-01T10:05:00"
+      action "unknown"
+      ts "2025-10-01T09:05:00"
       user "alice"
-      raw "ssh from 10.0.0.2 to 10.0.0.5 by alice"
+      raw ""
     ]
   ]
   edge [
-    source 0
-    target 2
+    source 1
+    target 1
     events "_networkx_list_start"
     events [
-      action "file_access"
-      ts "2025-10-01T10:13:30"
+      action "unknown"
+      ts "2025-10-01T09:07:00"
       user "alice"
-      raw "cat /etc/passwd on 10.0.0.8"
+      raw ""
     ]
   ]
   edge [
     source 1
     target 2
+    events [
+      action "unknown"
+      ts "2025-10-01T09:10:00"
+      user "alice"
+      raw ""
+    ]
+    events [
+      action "unknown"
+      ts "2025-10-01T09:20:00"
+      user "alice"
+      raw ""
+    ]
+  ]
+  edge [
+    source 2
+    target 2
     events "_networkx_list_start"
     events [
-      action "privilege_escalation"
-      ts "2025-10-01T10:07:00"
+      action "unknown"
+      ts "2025-10-01T09:22:00"
       user "alice"
-      raw "sudo: alice used sudo on 10.0.0.8"
+      raw ""
+    ]
+  ]
+  edge [
+    source 2
+    target 4
+    events "_networkx_list_start"
+    events [
+      action "unknown"
+      ts "2025-10-01T09:25:00"
+      user "alice"
+      raw ""
+    ]
+  ]
+  edge [
+    source 2
+    target 5
+    events "_networkx_list_start"
+    events [
+      action "unknown"
+      ts "2025-10-01T09:30:00"
+      user "alice"
+      raw ""
     ]
   ]
   edge [
@@ -69,10 +117,21 @@ graph [
     target 1
     events "_networkx_list_start"
     events [
-      action "login"
-      ts "2025-10-01T10:12:00"
+      action "unknown"
+      ts "2025-10-01T09:15:00"
       user "bob"
-      raw "failed login attempt for bob"
+      raw ""
+    ]
+  ]
+  edge [
+    source 5
+    target 5
+    events "_networkx_list_start"
+    events [
+      action "unknown"
+      ts "2025-10-01T09:35:00"
+      user "alice"
+      raw ""
     ]
   ]
 ]

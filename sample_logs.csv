@@ -1,6 +1,11 @@
-timestamp,src_ip,dst_ip,user,raw_message
-2025-10-01T10:00:00,10.0.0.2,10.0.0.2,alice,"alice logged in successfully on 10.0.0.2"
-2025-10-01T10:05:00,10.0.0.2,10.0.0.5,alice,"ssh from 10.0.0.2 to 10.0.0.5 by alice"
-2025-10-01T10:07:00,10.0.0.5,10.0.0.8,alice,"sudo: alice used sudo on 10.0.0.8"
-2025-10-01T10:12:00,192.168.1.4,10.0.0.5,bob,"failed login attempt for bob"
-2025-10-01T10:13:30,10.0.0.2,10.0.0.8,alice,"cat /etc/passwd on 10.0.0.8"
+timestamp,action,user,src_ip,dst_ip,raw
+2025-10-01 09:00:00,login,alice,10.0.0.2,10.0.0.2,alice logged in successfully on 10.0.0.2
+2025-10-01 09:05:00,ssh_connect,alice,10.0.0.2,10.0.0.5,ssh from 10.0.0.2 to 10.0.0.5 by alice
+2025-10-01 09:07:00,privilege_escalation,alice,10.0.0.5,10.0.0.5,sudo: alice used sudo on 10.0.0.5
+2025-10-01 09:10:00,file_access,alice,10.0.0.5,10.0.0.8,cat /etc/passwd on 10.0.0.8
+2025-10-01 09:15:00,login,bob,192.168.1.4,10.0.0.5,failed login attempt for bob
+2025-10-01 09:20:00,ssh_connect,alice,10.0.0.5,10.0.0.8,ssh from 10.0.0.5 to 10.0.0.8 by alice
+2025-10-01 09:22:00,privilege_escalation,alice,10.0.0.8,10.0.0.8,sudo: alice escalated privileges on 10.0.0.8
+2025-10-01 09:25:00,file_access,alice,10.0.0.8,10.0.0.9,cat /etc/shadow on 10.0.0.9
+2025-10-01 09:30:00,ssh_connect,alice,10.0.0.8,10.0.0.10,ssh from 10.0.0.8 to 10.0.0.10 by alice
+2025-10-01 09:35:00,file_access,alice,10.0.0.10,10.0.0.10,cat /var/secret_data on 10.0.0.10
