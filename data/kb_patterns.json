@@ -1,0 +1,14 @@
+[
+  {
+    "id": "cred_then_priv",
+    "name": "Credential use then privilege escalation",
+    "description": "Sequence: credential use or auth followed by privilege escalation.",
+    "sequence": ["credential_use", "privilege_escalation"]
+  },
+  {
+    "id": "ssh_then_file",
+    "name": "SSH then sensitive file access",
+    "description": "SSH connection then file access to sensitive file.",
+    "sequence": ["ssh_connect", "file_access"]
+  }
+]

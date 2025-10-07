@@ -1,0 +1,6 @@
+timestamp,src_ip,dst_ip,user,raw_message
+2025-10-01T10:00:00,10.0.0.2,10.0.0.2,alice,"alice logged in successfully on 10.0.0.2"
+2025-10-01T10:05:00,10.0.0.2,10.0.0.5,alice,"ssh from 10.0.0.2 to 10.0.0.5 by alice"
+2025-10-01T10:07:00,10.0.0.5,10.0.0.8,alice,"sudo: alice used sudo on 10.0.0.8"
+2025-10-01T10:12:00,192.168.1.4,10.0.0.5,bob,"failed login attempt for bob"
+2025-10-01T10:13:30,10.0.0.2,10.0.0.8,alice,"cat /etc/passwd on 10.0.0.8"
