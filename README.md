@@ -1,18 +1,27 @@
-# Log2Graph — prototype LLM-friendly pour la détection d'intrusion
+# LateralSight — Prototype LLM+KG pour détection de mouvement latéral
 
-## But
-Montrer comment on peut extraire des événements depuis des logs, les structurer en un graphe d'événements (attack graph) et utiliser un petit modèle NLP pour aider à filtrer les événements suspects.
+**Résumé**
+Prototype démontrant l'extraction d'événements depuis des logs, la construction d'un Knowledge Graph (NetworkX) et une détection basique de scénarios de mouvement latéral.
 
-## Contenu
-- `data/sample_logs.txt` : logs d'exemple
-- `src/parse_logs.py` : parseur simple vers DataFrame
-- `src/build_graph.py` : construction et visualisation du graphe (networkx)
-- `src/detect_suspicious.py` : démonstration d'un classifieur NLP (proxy)
-- `src/visualize_graph.py` : script pour sauver l'image du graphe
+**Tech stack**
+- Python 3.10+
+- NetworkX, pandas, scikit-learn, node2vec (ou karateclub), Streamlit
+- Optionnel: accès à un LLM via HuggingFace/locale ou API pour extraction NLP
 
-## Installation
+**Structure**
+- `data/` : fichiers de logs (CSV / synthetiques)
+- `src/extract_events.py` : extraction & normalisation (rules + LLM stub)
+- `src/build_graph.py` : construit un graph NetworkX
+- `src/detect.py` : règles/matching pour mouvement latéral
+- `app.py` : demo Streamlit
+- `Dockerfile`, `requirements.txt`
+
+**Quick start**
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+git clone https://github.com/TON_COMPTE/LateralSight.git
+cd LateralSight
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-
+python src/extract_events.py data/sample_logs.csv data/events.json
+python src/build_graph.py data/events.json data/graph.gml
+streamlit run app.py
