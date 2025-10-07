@@ -1,40 +1,50 @@
-# build_graph.py
+# src/build_graph.py
 import networkx as nx
-from parse_logs import parse_file
-import matplotlib.pyplot as plt
+import json
+from typing import List, Dict
 
-def build_graph_from_df(df):
+def build_graph_from_events(events: List[Dict]) -> nx.DiGraph:
+    """
+    Construire un DiGraph où les noeuds sont des hosts (prefix 'host:').
+    Les arêtes entre hosts ont un attribut 'events' (liste d'événements).
+    """
     G = nx.DiGraph()
-    for _, row in df.iterrows():
-        ts = row['ts']
-        user = row['user']
-        action = row['action']
-        # nodes: user, ip src, ip dst, file
-        G.add_node(user, type='user')
-        if row.get('src'):
-            G.add_node(row['src'], type='ip')
-            G.add_edge(row['src'], user, label='src_of', ts=ts, action=action)
-        if row.get('dst'):
-            G.add_node(row['dst'], type='ip')
-            G.add_edge(user, row['dst'], label=action, ts=ts)
-        if row.get('file'):
-            G.add_node(row['file'], type='file')
-            G.add_edge(user, row['file'], label=action, ts=ts)
-        # also connect user->action as a node optionally
+    for ev in events:
+        src = ev.get("src_ip") or "unknown"
+        dst = ev.get("dst_ip") or "unknown"
+        node_src = f"host:{src}"
+        node_dst = f"host:{dst}"
+        G.add_node(node_src, type="host")
+        G.add_node(node_dst, type="host")
+        # Edge key: si exist, append, sinon créer
+        if G.has_edge(node_src, node_dst):
+            G[node_src][node_dst]["events"].append({
+                "action": ev.get("action"),
+                "ts": ev.get("timestamp"),
+                "user": ev.get("user"),
+                "raw": ev.get("raw")
+            })
+        else:
+            G.add_edge(node_src, node_dst, events=[{
+                "action": ev.get("action"),
+                "ts": ev.get("timestamp"),
+                "user": ev.get("user"),
+                "raw": ev.get("raw")
+            }])
     return G
 
-def draw_graph(G, out="graph.png"):
-    pos = nx.spring_layout(G)
-    labels = {n: n for n in G.nodes()}
-    nx.draw(G, pos, with_labels=True, node_size=1000, font_size=8)
-    edge_labels = nx.get_edge_attributes(G, 'label')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=7)
-    plt.tight_layout()
-    plt.savefig(out, dpi=150)
-    print(f"Saved graph to {out}")
+def save_graph_gml(G: nx.DiGraph, out_path: str):
+    nx.write_gml(G, out_path)
 
 if __name__ == "__main__":
-    df = parse_file("../data/sample_logs.txt")
-    G = build_graph_from_df(df)
-    draw_graph(G)
-
+    import sys
+    if len(sys.argv) < 3:
+        print("Usage: python build_graph.py events.json out_graph.gml")
+    else:
+        ev_path = sys.argv[1]
+        out = sys.argv[2]
+        with open(ev_path, "r", encoding="utf-8") as f:
+            events = json.load(f)
+        G = build_graph_from_events(events)
+        save_graph_gml(G, out)
+        print(f"Graph saved to {out} with {len(G.nodes())} nodes and {len(G.edges())} edges")
